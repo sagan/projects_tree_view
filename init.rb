@@ -14,11 +14,3 @@ Redmine::Plugin.register :projects_tree_view do
   version '0.0.6'
   requires_redmine :version_or_higher => '2.0.0'
 end
-
-class ProjectsTreeViewListener < Redmine::Hook::ViewListener
-  # Adds javascript and stylesheet tags
-  render_on :view_layouts_base_html_head, :inline => <<-EOT
-  <%= javascript_include_tag 'projects_tree_view', :plugin => 'projects_tree_view' %>
-  <%= stylesheet_link_tag 'projects_tree_view', :plugin => 'projects_tree_view' %>
-  EOT
-end
