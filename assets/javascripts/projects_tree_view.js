@@ -95,7 +95,18 @@ function showHide(EL,PM)
 
 function expandAll()
 {
-  $$('table.list tr').each(function(e) {
+  $$('table.list tr.project').each(function(e) {
     e.addClassName('open'); e.removeClassName('closed'); e.removeClassName('hide');
+  });
+}
+
+function collapseAll()
+{
+  $$('table.list tr.project').each(function(e) {
+    e.removeClassName('open'); e.addClassName('closed');
+    if (!e.hasClassName('root'))
+    {
+      e.addClassName('hide');
+    }
   });
 }

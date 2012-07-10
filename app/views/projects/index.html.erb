@@ -28,8 +28,13 @@
       <% project_id = "%04d" % project.id %>
       <%  (plevel - level).times { ancestors.pop } if (level < plevel) %>
       <% has_children = !project.children.empty? %>
-      <tr class="<%= project.css_classes %> closed <%= level > 0 ? "hide #{ancestors * " "}" : cycle("odd", "even") %>" id="<%= project_id + "span" if has_children %>">
-        <td class="name"><span style="padding-left: <%= (2 * level).to_s %>em"></span><%= "<span onclick=\"showHide('#{project_id}','#{project_id}span')\" class=\"expander\">&nbsp;</span>".html_safe if has_children %>
+      <tr class="<%= project.css_classes %> closed <%= (level > 0 ? "hide #{ancestors * " "} " : "") + cycle("odd", "even") %>" id="<%= project_id + "span" if has_children %>">
+        <td class="name"><span style="padding-left: <%= (2 * level).to_s %>em"></span>
+          <% if has_children %>
+            <span onclick="showHide(<%= "'#{project_id}','#{project_id}span'" %>)" class="expander">&nbsp;</span>
+          <% else %>
+            <span style="padding-left: 8px" class="empty">&nbsp;</span>
+          <% end %>
           <span><%= project.active? ? link_to_project(project, {:action => 'show'}) : h(project.name) %></span>
           <span class="empty <%= "my-project" if User.current.member_of?(project) %>">&nbsp;</span></td>
         <td><%= textilizable project.short_description.gsub(/\!.+\!/,""), :project => project %></td>
@@ -43,7 +48,9 @@
   </tbody>
 </table>
 
-<%= link_to l(:expand_all), "#", :onclick => 'expandAll()' %>
+<p>
+<%= link_to(l(:expand_all), "#", :onclick => 'expandAll()')%><span>&nbsp;/&nbsp;</span><%= link_to l(:collapse_all), "#", :onclick => 'collapseAll()' %>
+</p>
 
 <% if User.current.logged? %>
 <p style="text-align:right;">
