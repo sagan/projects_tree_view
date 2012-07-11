@@ -1,55 +1,64 @@
 /* Function to allow the projects to show up as a tree */
 
-function toggleOddEven()
-{
+function toggleOddEven() {
   var isEven = false;
 
-  $$('table.list tr.project').each(function(e) {
-    if (!e.hasClassName('hide')) {
-      e.removeClassName('odd');
-      e.removeClassName('even');
-      e.addClassName(isEven ? 'even' : 'odd');
-      isEven = !isEven;
+  $$('table.list tr.project:not(.hide)').each(function(e) {
+    e.removeClassName('odd');
+    e.removeClassName('even');
+    e.addClassName(isEven ? 'even' : 'odd');
+    isEven = !isEven;
+  })
+}
+
+function expandProjectTree(id) {
+  $$('table.list tr.child.' + id).each(function(e) {
+    e.removeClassName('hide');
+    if (e.hasClassName('open')) {
+      expandProjectTree(e.identify());
     }
   })
 }
 
-function toggleShowHide(projectId)
-{
-  var project = $('project' + projectId);
-  var isClosed = project.className.include('closed');
-
-  $$('table.list tr.' + projectId).each(function(e) {
-    if (isClosed) {
-      e.removeClassName('hide');
-    } else {
-      e.addClassName('hide');
-    }
+function collapseProjectTree(id) {
+  $$('table.list tr.child.' + id).each(function(e) {
+    e.addClassName('hide');
+    collapseProjectTree(e.identify());
   })
+}
 
-  project.removeClassName('closed');
-  project.removeClassName('open');
-  project.addClassName(isClosed ? 'open' : 'closed');
+function toggleShowHide(id) {
+  with($(id)) {
+    if (hasClassName('open')) {
+      collapseProjectTree(id);
+      removeClassName('open');
+      addClassName('collapsed');
+    } else {
+      expandProjectTree(id);
+      removeClassName('collapsed');
+      addClassName('open');
+    }
+  }
 
   toggleOddEven();
 }
 
-function expandAll()
-{
+function expandAll() {
   $$('table.list tr.project').each(function(e) {
-    e.removeClassName('closed');
     e.removeClassName('hide');
-    e.addClassName('open');
+    if (!e.hasClassName('leaf')) {
+      e.removeClassName('collapsed');
+      e.addClassName('open');
+    }
   });
 
   toggleOddEven();
 }
 
-function collapseAll()
-{
+function collapseAll() {
   $$('table.list tr.project').each(function(e) {
     e.removeClassName('open');
-    e.addClassName('closed');
+    e.addClassName('collapsed');
     if (!e.hasClassName('root')) {
       e.addClassName('hide');
     }
