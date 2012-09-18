@@ -3,52 +3,53 @@
 function toggleOddEven() {
   var isEven = false;
 
-  $$('table.list tr.project:not(.hide)').each(function(e) {
-    e.removeClassName('odd');
-    e.removeClassName('even');
-    e.addClassName(isEven ? 'even' : 'odd');
+  $('table.list tr.project:not(.hide)').each(function() {
+    var e = $(this);
+    e.removeClass('odd');
+    e.removeClass('even');
+    e.addClass(isEven ? 'even' : 'odd');
     isEven = !isEven;
   })
 }
 
 function expandProjectTree(id) {
-  $$('table.list tr.child.' + id).each(function(e) {
-    e.removeClassName('hide');
-    if (e.hasClassName('open')) {
-      expandProjectTree(e.identify());
+  $('table.list tr.child.' + id).each(function() {
+    var e = $(this);
+    e.removeClass('hide');
+    if (e.hasClass('open')) {
+      expandProjectTree(e.context.id);
     }
   })
 }
 
 function collapseProjectTree(id) {
-  $$('table.list tr.child.' + id).each(function(e) {
-    e.addClassName('hide');
-    collapseProjectTree(e.identify());
+  $('table.list tr.child.' + id).each(function() {
+    var e = $(this);
+    e.addClass('hide');
+    collapseProjectTree(e.context.id);
   })
 }
 
 function toggleShowHide(id) {
-  with($(id)) {
-    if (hasClassName('open')) {
-      collapseProjectTree(id);
-      removeClassName('open');
-      addClassName('collapsed');
-    } else {
-      expandProjectTree(id);
-      removeClassName('collapsed');
-      addClassName('open');
-    }
+  var e = $('#' + id);
+
+  if (e.hasClass('open')) {
+    collapseProjectTree(id);
+    e.removeClass('open');
+  } else {
+    expandProjectTree(id);
+    e.addClass('open');
   }
 
   toggleOddEven();
 }
 
 function expandAll() {
-  $$('table.list tr.project').each(function(e) {
-    e.removeClassName('hide');
-    if (!e.hasClassName('leaf')) {
-      e.removeClassName('collapsed');
-      e.addClassName('open');
+  $('table.list tr.project').each(function() {
+    var e = $(this);
+    e.removeClass('hide');
+    if (!e.hasClass('leaf')) {
+      e.addClass('open');
     }
   });
 
@@ -56,11 +57,11 @@ function expandAll() {
 }
 
 function collapseAll() {
-  $$('table.list tr.project').each(function(e) {
-    e.removeClassName('open');
-    e.addClassName('collapsed');
-    if (!e.hasClassName('root')) {
-      e.addClassName('hide');
+  $('table.list tr.project').each(function() {
+    var e = $(this);
+    e.removeClass('open');
+    if (!e.hasClass('root')) {
+      e.addClass('hide');
     }
   });
 
