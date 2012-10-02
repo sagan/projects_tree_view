@@ -14,12 +14,15 @@
 <h2><%= l(:label_project_plural)%></h2>
 
 <table class="list">
+  <% show_project_progress = Setting.plugin_projects_tree_view['show_project_progress'] %>
   <thead>
     <tr>
       <th><%= l(:label_project)%></th>
       <th><%= l(:field_description)%></th>
       <th><%= l(:field_go_to)%></th>
-      <th><%= l(:field_versions)%></th>
+      <% if show_project_progress %>
+        <th><%= l(:field_versions)%></th>
+      <% end %>
       <th><%= l(:field_created_on)%></th>
     </tr>
   </thead>
@@ -39,7 +42,9 @@
           <span class="empty <%= "my-project" if User.current.member_of?(project) %>">&nbsp;</span></td>
         <td><%= textilizable project.short_description.gsub(/\!.+\!/,""), :project => project %></td>
         <td><%= favorite_project_modules_links(project) %></td>
-        <td><%= render_project_progress(project) %></td>
+        <% if show_project_progress %>
+          <td><%= render_project_progress(project) %></td>
+        <% end %>
         <td align="center"><%= format_date(project.created_on) %></td>
       </tr>
       <% ancestors << project_id if has_children %>

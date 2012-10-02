@@ -15,4 +15,8 @@ Redmine::Plugin.register :projects_tree_view do
   url 'https://github.com/cforce/projects_tree_view'
   version '0.0.8'
   requires_redmine :version_or_higher => '2.1.0'
+
+  settings :default => {
+    'show_project_progress' => true
+  }, :partial => 'settings/project_tree_settings'
 end
