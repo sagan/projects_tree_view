@@ -13,6 +13,10 @@
 
 <h2><%= l(:label_project_plural)%></h2>
 
+<p>
+<%= link_to(l(:expand_all), "#", :onclick => 'expandAll()')%><span>&nbsp;/&nbsp;</span><%= link_to l(:collapse_all), "#", :onclick => 'collapseAll()' %>
+</p>
+
 <table class="list">
   <% show_project_progress = Setting.plugin_projects_tree_view['show_project_progress'] %>
   <thead>
