@@ -13,7 +13,7 @@ Redmine::Plugin.register :projects_tree_view do
   author 'Chris Peterson and Github community'
   description 'This is a Redmine plugin which will turn the projects page into a tree view'
   url 'https://github.com/cforce/projects_tree_view'
-  version '0.0.8'
+  version '0.0.9'
   requires_redmine :version_or_higher => '3.0.0'
 
   settings :default => {
