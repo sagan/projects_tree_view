@@ -1,0 +1,9 @@
+zh:
+  # Chinese simplified strings go here
+
+  field_versions: "版本"
+  field_go_to: "打开模块"
+  subprojects: "子项目"
+  expand_all: "展开全部"
+  collapse_all: "折叠全部"
+  show_progress: "显示项目进度"
