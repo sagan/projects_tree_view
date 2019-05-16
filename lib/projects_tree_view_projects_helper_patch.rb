@@ -13,9 +13,9 @@ module ProjectsTreeView
 
       if open_issues > 0
         issues_closed_percent = (1 - open_issues.to_f/project.issues.count) * 100
-        s << "<div>Issues: " +
-          link_to("#{open_issues} open", :controller => 'issues', :action => 'index', :project_id => project, :set_filter => 1) +
-          "<small> / #{project.issues.count} total</small></div>" +
+        s << "<div>问题: " +
+          link_to("#{open_issues} 打开", :controller => 'issues', :action => 'index', :project_id => project, :set_filter => 1) +
+          "<small> / #{project.issues.count} 所有</small></div>" +
           progress_bar(issues_closed_percent, :width => '30em', :legend => '%0.0f%' % issues_closed_percent)
       end
       project_versions = project_open(project)
